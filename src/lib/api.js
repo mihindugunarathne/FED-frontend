@@ -5,15 +5,21 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const Api = createApi({
   reducerPath: "Api",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.DEV 
-      ? "https://fed-storefront-backend-mihindu.onrender.com/api/"
-      : "https://fed-storefront-backend-mihindu.onrender.com/api/",
-    prepareHeaders: async (headers, { getState }) => {
-      const token = await window.Clerk?.session?.getToken();
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+    baseUrl: "https://fed-storefront-backend-mihindu.onrender.com/api/",
+    prepareHeaders: async (headers) => {
+      try {
+        // Use the specific template name we created
+        const token = await window.Clerk?.session?.getToken({ 
+          template: "admin-auth"
+        });
+        
+        if (token) {
+          headers.set("authorization", `Bearer ${token}`);
+        }
+        headers.set("Content-Type", "application/json");
+      } catch (error) {
+        console.error("Error getting token:", error);
       }
-
       return headers;
     },
   }),
@@ -46,6 +52,14 @@ export const Api = createApi({
     getUserOrders: builder.query({
       query: () => `orders/user/orders`,
     }),
+    createProduct: builder.mutation({
+      query: (data) => ({
+        url: 'products',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Products'],
+    }),
   }),
 });
 
@@ -58,4 +72,5 @@ export const {
   useGetOrderQuery,
   useGetProductQuery,
   useGetUserOrdersQuery,
+  useCreateProductMutation,
 } = Api;
