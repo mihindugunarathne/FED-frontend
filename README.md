@@ -1,5 +1,8 @@
 # E-Commerce Frontend Application
 
+##Backend repo Link
+https://github.com/mihindugunarathne/FED-backend.git
+
 ## Overview
 React-based frontend for an e-commerce platform with Redux state management.
 
@@ -36,12 +39,3 @@ npm start
 - Admin Dashboard
 - Responsive Design
 
-## Project Structure
-```
-src/
-├── components/     # Reusable UI components
-├── pages/         # Route components
-├── features/      # Redux slices
-├── services/      # API services
-└── utils/         # Helper functions
-```
