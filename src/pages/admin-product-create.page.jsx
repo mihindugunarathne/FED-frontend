@@ -94,19 +94,19 @@ function AdminProductCreatePage() {
   // Show loading state while categories load
   if (categoriesLoading) {
     return (
-      <main className="px-8">
-        <h1 className="text-4xl font-bold">Create Product</h1>
+      <main className="min-h-screen flex flex-col items-center p-8">
+        <h1 className="text-4xl font-bold text-center">Create Product</h1>
         <div className="mt-8">Loading categories...</div>
       </main>
     );
   }
 
   return (
-    <main className="px-8">
-      <h1 className="text-4xl font-bold">Create Product</h1>
-      <div className="mt-8 max-w-xl">
+    <main className="min-h-screen flex flex-col items-center p-8">
+      <h1 className="text-4xl font-bold text-center">Create Product</h1>
+      <div className="mt-8 w-full max-w-xl">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="name"
