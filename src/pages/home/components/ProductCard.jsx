@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "@/lib/features/cartSlice";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ function ProductCard(props) {
       toast.error("Product is out of stock!");
       return;
     }
-    
     dispatch(
       addToCart({
         _id: props._id,
@@ -28,28 +27,27 @@ function ProductCard(props) {
   };
 
   return (
-    <Card>
-      <Link to={`/shop/${props._id}`}>
-        <div className="h-80 bg-card rounded-lg p-4 relative">
-          <img src={props.image} className="block" />
-          {/* Add stock badge */}
-          <div className={`absolute top-2 right-2 px-2 py-1 rounded-full ${
-            props.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+    <Card className="shadow-xl rounded-2xl overflow-hidden bg-white hover:scale-[1.025] hover:shadow-2xl transition-transform duration-200 border border-gray-100">
+      <Link to={`/shop/${props._id}`} className="block group">
+        <div className="h-64 bg-gray-50 flex items-center justify-center relative overflow-hidden">
+          <img src={props.image} alt={props.name} className="object-contain h-48 w-full transition-transform duration-300 group-hover:scale-105" />
+          <div className={`absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-full shadow-md border ${
+            props.stock > 0 ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'
           }`}>
             {props.stock > 0 ? `${props.stock} in stock` : 'Out of stock'}
           </div>
         </div>
-        <div className="flex px-4 mt-4 items-center justify-between">
-          <h2 className="text-2xl font-semibold">{props.name}</h2>
-          <span className="block text-lg font-medium">${props.price}</span>
+        <div className="flex px-6 mt-4 items-center justify-between">
+          <h2 className="text-xl font-bold text-gray-900 truncate">{props.name}</h2>
+          <span className="block text-lg font-semibold text-primary">${props.price}</span>
         </div>
-        <div className="px-4 mt-2">
-          <p className="text-sm">{props.description}</p>
+        <div className="px-6 mt-2 mb-2 min-h-[40px]">
+          <p className="text-sm text-gray-600 line-clamp-2">{props.description}</p>
         </div>
       </Link>
-      <div className="mt-1 p-4">
+      <div className="mt-1 px-6 pb-4">
         <Button 
-          className="w-full" 
+          className="w-full py-2 rounded-lg font-semibold text-base shadow-md hover:shadow-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={handleClick}
           disabled={props.stock <= 0}
         >
