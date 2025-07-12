@@ -99,153 +99,166 @@ function AdminProductCreatePage() {
   // Show loading state while categories load
   if (categoriesLoading) {
     return (
-      <main className="px-8">
-        <h1 className="text-4xl font-bold">Create Product</h1>
-        <div className="mt-8">Loading categories...</div>
+      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-yellow-50">
+        <div className="text-lg font-semibold text-gray-600">Loading categories...</div>
       </main>
     );
   }
 
+  // Live image preview
+  const imageUrl = form.watch("image");
+
   return (
-    <main className="px-8">
-      <h1 className="text-4xl font-bold">Create Product</h1>
-      <div className="mt-8 max-w-xl">
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-yellow-50 px-2 py-8">
+      <div className="w-full max-w-lg bg-white shadow-2xl rounded-2xl p-8 border border-gray-100 flex flex-col items-center">
+        <h1 className="text-3xl font-extrabold mb-6 text-center text-primary">Create Product</h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Product name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Product description" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="0.00" 
-                      {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stock</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="0" 
-                      {...field}
-                      onChange={e => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+            <div className="flex flex-col gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">Name</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
+                      <Input className="h-12 text-lg" placeholder="Product name" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      {categories?.map(category => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">Description</FormLabel>
+                    <FormControl>
+                      <Input className="h-12 text-lg" placeholder="Product description" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base font-semibold">Price</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          className="h-12 text-lg" 
+                          placeholder="0.00" 
+                          {...field}
+                          onChange={e => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="stock"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base font-semibold">Stock</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          className="h-12 text-lg" 
+                          placeholder="0" 
+                          {...field}
+                          onChange={e => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="categoryId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">Category</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="h-12 text-lg">
+                          <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categories?.map(category => (
+                          <SelectItem key={category._id} value={category._id} className="text-lg">
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">Image URL</FormLabel>
+                    <FormControl>
+                      <Input className="h-12 text-lg" placeholder="Image URL" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Live image preview */}
+              {imageUrl && imageUrl.length > 5 && (
+                <div className="flex justify-center my-2">
+                  <img
+                    src={imageUrl}
+                    alt="Preview"
+                    className="w-40 h-40 object-contain rounded-lg border border-gray-200 shadow"
+                    onError={e => (e.target.style.display = 'none')}
+                  />
+                </div>
               )}
-            />
-
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image URL</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Image URL" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="stripePriceId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stripe Price ID</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="price_..." 
-                      {...field}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (!value.startsWith('price_') && value.length > 0) {
-                          field.onChange('price_' + value);
-                        } else {
-                          field.onChange(value);
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+              <FormField
+                control={form.control}
+                name="stripePriceId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">Stripe Price ID</FormLabel>
+                    <FormControl>
+                      <Input 
+                        className="h-12 text-lg" 
+                        placeholder="price_..." 
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (!value.startsWith('price_') && value.length > 0) {
+                            field.onChange('price_' + value);
+                          } else {
+                            field.onChange(value);
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button 
               type="submit" 
               disabled={isLoading || !categories?.length}
-              className="w-full"
+              className="w-full h-14 text-lg font-bold mt-4 shadow-md hover:scale-105 transition-transform"
             >
               {isLoading ? "Creating..." : "Create Product"}
             </Button>
