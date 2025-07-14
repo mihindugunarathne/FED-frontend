@@ -15,10 +15,7 @@ const formSchema = z.object({
   price: z.number().min(0, "Price must be positive"),
   stock: z.number().min(0, "Stock must be positive"),
   categoryId: z.string().min(1, "Category is required"),
-  image: z.string().min(1, "Image URL is required"),
-  stripePriceId: z.string()
-    .min(1, "Stripe Price ID is required")
-    .regex(/^price_/, "Must start with 'price_'")
+  image: z.string().min(1, "Image URL is required")
 });
 
 function AdminProductCreatePage() {
@@ -33,8 +30,7 @@ function AdminProductCreatePage() {
       price: 0,
       stock: 0,
       categoryId: "",
-      image: "",
-      stripePriceId: ""
+      image: ""
     }
   });
 
@@ -66,7 +62,6 @@ function AdminProductCreatePage() {
     try {
       const session = await window.Clerk?.session;
       const token = await session?.getToken({ template: 'store_admin' });
-      
       console.log('Admin check:', {
         sessionId: session?.id,
         role: session?.user?.publicMetadata?.role,
@@ -83,11 +78,11 @@ function AdminProductCreatePage() {
         price: Number(values.price),
         stock: Number(values.stock),
         categoryId: values.categoryId,
-        image: values.image.trim(),
-        stripePriceId: values.stripePriceId.trim() // Add this line
+        image: values.image.trim()
       };
 
       const result = await createProduct(productData).unwrap();
+      console.log("########################5", result);
       toast.success("Product created successfully");
       form.reset();
     } catch (error) {
@@ -229,31 +224,6 @@ function AdminProductCreatePage() {
                   />
                 </div>
               )}
-              <FormField
-                control={form.control}
-                name="stripePriceId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base font-semibold">Stripe Price ID</FormLabel>
-                    <FormControl>
-                      <Input 
-                        className="h-12 text-lg" 
-                        placeholder="price_..." 
-                        {...field}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (!value.startsWith('price_') && value.length > 0) {
-                            field.onChange('price_' + value);
-                          } else {
-                            field.onChange(value);
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
             <Button 
               type="submit" 

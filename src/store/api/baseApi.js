@@ -7,8 +7,8 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/api/`,
     prepareHeaders: async (headers) => {
-      // Get regular session token for non-admin routes
-      const token = await window.Clerk?.session?.getToken();
+      // Use the admin template for admin routes
+      const token = await window.Clerk?.session?.getToken({ template: 'store_admin' });
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
